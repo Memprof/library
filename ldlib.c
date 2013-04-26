@@ -21,7 +21,7 @@
 
 #define USE_FRAME_POINTER   0      /* Use Frame Pointers to compute the stack trace (faster) */
 #define CALLCHAIN_SIZE      5      /* stack trace length */
-#define RESOLVE_SYMBS       1      /* Resolve symbols at the end of the execution; quite costly */
+#define RESOLVE_SYMBS       0      /* Resolve symbols at the end of the execution; quite costly */
                                    /* If this takes too much time, you can deactivate it or stop memprof before doing it */
 
 #define NB_ALLOC_TO_IGNORE   0     /* Ignore the first X allocations.                                      */
@@ -386,12 +386,12 @@ bye(void) {
          _in_trace = 1;
          char **strings = backtrace_symbols (l->callchain_strings, l->callchain_size);
          for (k = 0; k < l->callchain_size; k++) {
-            fprintf (dump, "%*.*s%p\n", (int)k,(int)k,"",strings[k]);
+            fprintf (dump, "%*.*s%s\n", (int)k,(int)k,"",strings[k]);
          }
          libc_free(strings);
 #else
          for (k = 0; k < l->callchain_size; k++) {
-            fprintf (dump, "%*.*s%p\n", (int)k,(int)k,"",l->callchain_strings[k]);
+            fprintf (dump, "%*.*s<not resolved> [%p]\n", (int)k,(int)k,"",l->callchain_strings[k]);
          }
 #endif
          fprintf(dump, "%lu pid %d cpu %d size %d addr %lx type %d\n", l->rdt, l->pid, l->cpu, (int)l->size, (long unsigned)l->addr, (int)l->entry_type);

@@ -7,12 +7,12 @@ char *find_ip(char *line, uint64_t *ip) {
 cont:
    while(*l && *l != '[')
       l++;
-   /** This is an ugly hack for postgres: postgres has the good idea to name its processes
-    * 'postgres: postgres test [local] authentication'. The [local] should be skipped.
-    * Note that find_func does not work on such processes but I don't care (IP is resolved by MemProf).
-    */
    if(!(*l) || !*(l+1))
       return NULL;
+   /* 
+    * This is an ugly hack for postgres: postgres has the good idea to name its processes
+    * 'postgres: postgres test [local] authentication'. The [local] should be skipped.
+    */
    if(*(l+1)!='0') { //0x
       l++;
       goto cont;
@@ -24,7 +24,6 @@ cont:
    return ++l;
 }
 
-//unsafe because of find_lib
 void get_loc(char *line, uint64_t *ip) {
    *ip = 0;
    line = find_ip(line, ip);
