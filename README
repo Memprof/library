@@ -1,5 +1,0 @@
-Usage:
-LD_PRELOAD=./ldlib.so <app>
-
-Will dump what/when data was alloced during the <app> run in /tmp/data.raw.<pid>.
-Use ./merge /tmp/data.raw.* to get a data.processed.raw file which can be used with the --data switch of MemProf.
