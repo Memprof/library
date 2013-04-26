@@ -382,16 +382,17 @@ bye(void) {
       for(j = 0; j < log_index[i]; j++) {
          struct log *l = &log_arr[i][j];
          fprintf(dump, "%lu callchain\n", l->rdt);
+         // k=2, we skip get_trace and the function (malloc, ...) that called it
 #if RESOLVE_SYMBS
          _in_trace = 1;
          char **strings = backtrace_symbols (l->callchain_strings, l->callchain_size);
-         for (k = 0; k < l->callchain_size; k++) {
-            fprintf (dump, "%*.*s%s\n", (int)k,(int)k,"",strings[k]);
+         for (k = 2; k < l->callchain_size; k++) {
+            fprintf (dump, "%*.*s%s\n", (int)k-2,(int)k-2,"",strings[k]);
          }
          libc_free(strings);
 #else
-         for (k = 0; k < l->callchain_size; k++) {
-            fprintf (dump, "%*.*s<not resolved> [%p]\n", (int)k,(int)k,"",l->callchain_strings[k]);
+         for (k = 2; k < l->callchain_size; k++) {
+            fprintf (dump, "%*.*s<not resolved> [%p]\n", (int)k-2,(int)k-2,"",l->callchain_strings[k]);
          }
 #endif
          fprintf(dump, "%lu pid %d cpu %d size %d addr %lx type %d\n", l->rdt, l->pid, l->cpu, (int)l->size, (long unsigned)l->addr, (int)l->entry_type);
