@@ -7,8 +7,12 @@ The Memprof Library. Used to track malloc and free.
 WARNING: To compile the library, you must have a copy of the kernel module in ../module and a copy of the parser in ../parser.
 
 ```bash
-make 
+../scripts/profile_app.sh <app>
+
+or 
+
 sudo insmod ../module/memprof.ko 
+rm /tmp/data.*
 echo b > /proc/memprof_cntl 
 LD_PRELOAD=./ldlib.so <app> 
 echo e > /proc/memprof_cntl 
