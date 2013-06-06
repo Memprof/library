@@ -4,7 +4,7 @@ MemProf Library
 The Memprof Library. Used to track malloc and free.
 
 
-WARNING: To compile the library, you must have a copy of the kernel module in ../module and a copy of the parser in ../parser.
+WARNING: To compile the library, you must have a copy of the kernel module in ../module and a copy of the parser in ../parser. See https://github.com/Memprof to get the module and the parser.
 
 ```bash
 make 
